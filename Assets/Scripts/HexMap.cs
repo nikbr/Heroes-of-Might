@@ -9,13 +9,18 @@ public class HexMap : MonoBehaviour {
 		defaultMap();
 	}
 	public GameObject HexPrefab;
+	public Material[] HexMaterials;
+
 	// Update is called once per frame
 	public void defaultMap(){
 		for(int col=0;col<10;col++){
 			for(int row =0;row<10;row++){
 				Hex hex = new Hex(col, row);
-				Instantiate(HexPrefab, hex.Position(), Quaternion.identity, this.transform);
+				GameObject hexGO = (GameObject)Instantiate(HexPrefab, hex.Position(), Quaternion.identity, this.transform);
+				MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
+				mr.material = HexMaterials[0];
 			}
 		}
+		StaticBatchingUtility.Combine(this.gameObject);
 	}
 }

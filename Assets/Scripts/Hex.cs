@@ -17,7 +17,6 @@ public class Hex {
 	readonly static float RADIUS = 1f;
 	readonly static float HEIGHT = RADIUS*2;
 	readonly static float WIDTH = HEIGHT * Mathf.Sqrt(3)/2;
-
 	public Vector3 Position(){
 		float horizontalSpacing = WIDTH;
 		float verticalSpacing = HEIGHT*0.75f;
