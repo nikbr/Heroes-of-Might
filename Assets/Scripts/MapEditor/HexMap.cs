@@ -2,25 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HexMap : MonoBehaviour {
+public class HexMap : EditorObserver{
 
 	// Use this for initialization
-	void Start () {
-		defaultMap();
+	private GameObject HexPrefab;
+	private Material[] HexMaterials;
+	private GameObject go;
+	
+	public HexMap (EditorModel em, EditorActivity context) {
+		HexPrefab = context.HexPrefab;
+		HexMaterials = context.HexMaterials;
+		go = GameObject.Find("HexMap");
+		defaultMap(em, context);
+		StaticBatchingUtility.Combine(go);
 	}
-	public GameObject HexPrefab;
-	public Material[] HexMaterials;
 
 	// Update is called once per frame
-	public void defaultMap(){
-		for(int col=0;col<10;col++){
-			for(int row =0;row<10;row++){
-				Hex hex = new Hex(col, row);
-				GameObject hexGO = (GameObject)Instantiate(HexPrefab, hex.Position(), Quaternion.identity, this.transform);
-				MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
-				mr.material = HexMaterials[0];
-			}
+	public void defaultMap(EditorModel em, EditorActivity context){
+		foreach(HexModel hmodel in em.getHexes()){
+			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
+			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
+			mr.material = HexMaterials[0];
 		}
-		StaticBatchingUtility.Combine(this.gameObject);
+	}
+	public void update(EditorModel obj){
+
 	}
 }

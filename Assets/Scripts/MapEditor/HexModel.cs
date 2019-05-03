@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Hex {
+public class HexModel {
 	
-	public Hex(int q, int r){
+	public HexModel(int q, int r){
 		Q = q;
 		R = r;
 		S = -(q+r);
