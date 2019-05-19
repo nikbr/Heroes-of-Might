@@ -1211,6 +1211,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82b8e33c33066584ca222d32e8576b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HexPrefab: {fileID: 1278547890165286, guid: c3469f75f94fc034cadbd35608f9efa2, type: 2}
+  HexMaterials:
+  - {fileID: 2100000, guid: 5e6a1f4ce51c12c4790f9e5df2b2ec91, type: 2}
+  - {fileID: 2100000, guid: 8d9cf522cf7e35f44af96a840fd4edda, type: 2}
+  LayerIDForHexTiles:
+    serializedVersion: 2
+    m_Bits: 512
 --- !u!1 &1271662887
 GameObject:
   m_ObjectHideFlags: 0

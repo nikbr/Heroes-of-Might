@@ -9,17 +9,17 @@ public class HexMap : EditorObserver{
 	private Material[] HexMaterials;
 	private GameObject go;
 	
-	public HexMap (EditorModel em, EditorActivity context) {
+	public HexMap (EditorActivity context) {
 		HexPrefab = context.HexPrefab;
 		HexMaterials = context.HexMaterials;
 		go = GameObject.Find("HexMap");
-		defaultMap(em, context);
+		defaultMap(context);
 		StaticBatchingUtility.Combine(go);
 	}
 
 	// Update is called once per frame
-	public void defaultMap(EditorModel em, EditorActivity context){
-		foreach(HexModel hmodel in em.getHexes()){
+	public void defaultMap(EditorActivity context){
+		foreach(HexModel hmodel in context.em.getHexes()){
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			mr.material = HexMaterials[0];
