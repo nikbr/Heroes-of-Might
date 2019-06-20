@@ -5,22 +5,20 @@ using UnityEngine;
 
 public class EditorModel  {
 	private List<EditorObserver> observers = new List<EditorObserver>();
-	private List<HexModel> hexes = new List<HexModel>();
+	public List<HexModel> hexes = new List<HexModel>();
 	public Tool currentTool = new Tool();
 
-	public  EditorModel (EditorActivity ea) {
-		for (int col = 0;col<10;col++){
-			for(int row =0;row<10;row++){
-				hexes.Add(new HexModel(col, row));
-			}
-		}
+	public int width;
+	public int height;
+
+	public  EditorModel (EditorActivity ea, int width, int height) {
+		this.width = width;
+		this.height = height;
 	}
 
 	public void addObserver(EditorObserver eo){
 		observers.Add(eo);
 	}
-
-	public List<HexModel> getHexes(){return hexes;}
 	public void notifyObservers(){
 		foreach (EditorObserver obs in observers){
 			obs.update(this);
