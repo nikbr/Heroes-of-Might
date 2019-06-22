@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1220,7 +1220,7 @@ GameObject:
   - component: {fileID: 1128931818}
   - component: {fileID: 1128931817}
   m_Layer: 5
-  m_Name: HeightText
+  m_Name: HeightInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1354,7 +1354,7 @@ GameObject:
   - component: {fileID: 1210846500}
   - component: {fileID: 1210846499}
   m_Layer: 5
-  m_Name: Width
+  m_Name: WidthText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1375,7 +1375,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60.1, y: 409.4}
+  m_AnchoredPosition: {x: -60.100006, y: 409.4}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1210846499
@@ -1774,7 +1774,7 @@ GameObject:
   - component: {fileID: 1768801626}
   - component: {fileID: 1768801625}
   m_Layer: 5
-  m_Name: WidthText
+  m_Name: WidthInputField
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1797,7 +1797,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -116.2, y: 392.4}
+  m_AnchoredPosition: {x: -116.20001, y: 392.4}
   m_SizeDelta: {x: 50, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768801625
@@ -2388,7 +2388,7 @@ GameObject:
   - component: {fileID: 2086279999}
   - component: {fileID: 2086279998}
   m_Layer: 5
-  m_Name: Height
+  m_Name: HeightText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

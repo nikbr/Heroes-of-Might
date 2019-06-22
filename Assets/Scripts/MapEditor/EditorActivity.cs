@@ -9,7 +9,7 @@ public class EditorActivity : MonoBehaviour {
 	public GameObject HexPrefab;
 	public Material[] HexMaterials;
 	void Start () {
-		em = new EditorModel(this, 20, 10);
+		em = new EditorModel(this, 3, 3);
 		tb = new Toolbar(this);
 		em.addObserver(tb);
 		hm = new HexMap(this);
