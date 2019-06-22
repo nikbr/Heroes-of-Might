@@ -8,24 +8,42 @@ public class HexMap : EditorObserver{
 	private GameObject HexPrefab;
 	private Material[] HexMaterials;
 	private GameObject go;
+
+	private List<GameObject> map;
 	
 	public HexMap (EditorActivity context) {
 		HexPrefab = context.HexPrefab;
 		HexMaterials = context.HexMaterials;
 		go = GameObject.Find("HexMap");
-		defaultMap(context);
+		map = new List<GameObject>();
+		updateModel(context.em);
+		drawMap(context.em);
 		StaticBatchingUtility.Combine(go);
 	}
 
-	// Update is called once per frame
-	public void defaultMap(EditorActivity context){
-		foreach(HexModel hmodel in context.em.getHexes()){
+	public void updateModel(EditorModel em){
+		em.hexes = new List<HexModel>();
+		for (int col = 0;col<em.width;col++){
+			for(int row =0;row<em.height;row++){
+				em.hexes.Add(new HexModel(col, row));
+			}
+		}
+	}
+
+	public void drawMap(EditorModel em){	
+		foreach(HexModel hmodel in em.hexes){
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
+			map.Add(hexGO);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			mr.material = HexMaterials[0];
 		}
 	}
+	public void clearMap(){
+		foreach(GameObject hex in map){
+			GameObject.Destroy(hex);
+		}
+	}
 	public void update(EditorModel obj){
-
+		updateModel(obj);
 	}
 }

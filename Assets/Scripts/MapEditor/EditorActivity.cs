@@ -9,7 +9,7 @@ public class EditorActivity : MonoBehaviour {
 	public GameObject HexPrefab;
 	public Material[] HexMaterials;
 	void Start () {
-		em = new EditorModel(this);
+		em = new EditorModel(this, 3, 3);
 		tb = new Toolbar(this);
 		em.addObserver(tb);
 		hm = new HexMap(this);
@@ -26,6 +26,8 @@ public class EditorActivity : MonoBehaviour {
 				GameObject go = hit.rigidbody.gameObject;
 				MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>();
 				mr.material = HexMaterials[em.currentTool.value];
+			}else{
+
 			}
 		}
 	}
