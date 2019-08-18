@@ -36,6 +36,7 @@ public class HexMap : EditorObserver{
 			map.Add(hexGO);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			mr.material = HexMaterials[0];
+			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}
 	public void clearMap(){
