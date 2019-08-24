@@ -56,7 +56,7 @@ GameObject:
   - component: {fileID: 64616167385810940}
   - component: {fileID: 95993255024812876}
   - component: {fileID: 54891027921087266}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: HexModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
