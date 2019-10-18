@@ -41,13 +41,13 @@ public class Toolbar : EditorObserver {
 			context.hm.updateMap(context.em);
 		});
 		
-		GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
+	/* 	GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
 		loadButton = loadButtonGO.GetComponent<Button>();
 		loadButton.onClick.AddListener(TaskOnClick);
 		
 		GameObject saveButtonGO = go.transform.Find("SaveButton").gameObject;
 		saveButton = saveButtonGO.GetComponent<Button>();
-		saveButton.onClick.AddListener(TaskOnClick);
+		saveButton.onClick.AddListener(TaskOnClick);*/
 
 	}
 
