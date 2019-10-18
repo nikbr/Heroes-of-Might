@@ -19,6 +19,11 @@ public class EditorModel  {
 	public void addObserver(EditorObserver eo){
 		observers.Add(eo);
 	}
+
+	public int totalHexes(){
+		return width*height;
+	}
+
 	public void notifyObservers(){
 		foreach (EditorObserver obs in observers){
 			obs.update(this);
