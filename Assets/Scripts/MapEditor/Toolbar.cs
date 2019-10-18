@@ -11,7 +11,13 @@ public class Toolbar : EditorObserver {
 	private int heightValue;
 
 	private Dropdown terrainDropdown;
+
+	private Button loadButton;	 
+	private Button saveButton;	 
+
 	private int terrainValue;
+
+
 	public Toolbar(EditorActivity context){
 		go = GameObject.Find("Toolbar");
 		populateToolbar(context);
@@ -34,6 +40,19 @@ public class Toolbar : EditorObserver {
 			context.em.notifyObservers();
 			context.hm.updateMap(context.em);
 		});
+		
+		GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
+		loadButton = loadButtonGO.GetComponent<Button>();
+		loadButton.onClick.AddListener(TaskOnClick);
+		
+		GameObject saveButtonGO = go.transform.Find("SaveButton").gameObject;
+		saveButton = saveButtonGO.GetComponent<Button>();
+		saveButton.onClick.AddListener(TaskOnClick);
+
+	}
+
+void TaskOnClick(){
+		Debug.Log ("You have clicked the button!");
 	}
 
 	private void populateToolbar(EditorActivity context){
@@ -43,12 +62,17 @@ public class Toolbar : EditorObserver {
 	private void populateWidthAndHeight(EditorActivity context){
 		GameObject widthInputFieldGO = go.transform.Find("WidthInputField").gameObject;
 		GameObject heightInputFieldGO = go.transform.Find("HeightInputField").gameObject;
+
+
 		widthInputField = widthInputFieldGO.GetComponent<InputField>();
 		heightInputField = heightInputFieldGO.GetComponent<InputField>();
 		widthValue = context.em.width;
 		widthInputField.text = widthValue.ToString();
 		heightValue = context.em.height;
 		heightInputField.text = heightValue.ToString();
+
+
+		
 	}
 	private void populateTerrainDropdown(EditorActivity context){
 		GameObject terrainDropdownGO =  go.transform.Find("TerrainDropdown").gameObject;

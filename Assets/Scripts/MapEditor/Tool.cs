@@ -9,5 +9,4 @@ public class Tool {
 		type = "terrain";
 		value = 0;
 	}
-
 }
