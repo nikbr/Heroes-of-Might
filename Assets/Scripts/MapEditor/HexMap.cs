@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class HexMap : EditorObserver{
 
 	// Use this for initialization
@@ -19,6 +21,10 @@ public class HexMap : EditorObserver{
 		updateModel(context.em);
 		drawMap(context.em);
 		StaticBatchingUtility.Combine(go);
+	}
+
+	public List<GameObject> getMap(){
+		return map;
 	}
 
 	public void updateModel(EditorModel em){
