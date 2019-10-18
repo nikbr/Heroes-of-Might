@@ -23,8 +23,8 @@ public class HexMap : EditorObserver{
 
 	public void updateModel(EditorModel em){
 		em.hexes = new List<HexModel>();
-		for (int col = 0;col<em.width;col++){
-			for(int row =0;row<em.height;row++){
+		for(int row =0;row<em.height;row++){
+			for (int col = -row/2;col<em.width-row/2;col++){
 				em.hexes.Add(new HexModel(col, row));
 			}
 		}
@@ -49,7 +49,7 @@ public class HexMap : EditorObserver{
 	public void updateMap(EditorModel em){
 		List<Vector2Int> toRemove = new List<Vector2Int>();
 		foreach(KeyValuePair<Vector2Int,GameObject> hex in map){
-			if(hex.Key.x>em.width-1||hex.Key.y>em.height-1){
+			if(hex.Key.x+hex.Key.y/2>em.width-1||hex.Key.y>em.height-1){
 				GameObject.Destroy(hex.Value);
 				toRemove.Add(hex.Key);
 			}
