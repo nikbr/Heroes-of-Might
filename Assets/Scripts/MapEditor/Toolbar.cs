@@ -24,7 +24,7 @@ public class Toolbar : EditorObserver {
 			if(widthInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				widthValue = int.Parse(widthInputField.text);
 			}
-			context.hm.clearMap();
+			context.hm.clearMap(context.em);
 			context.em.notifyObservers();
 			context.hm.drawMap(context.em);
 		});
@@ -32,7 +32,7 @@ public class Toolbar : EditorObserver {
 			if(heightInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				heightValue = int.Parse(heightInputField.text);
 			}
-			context.hm.clearMap();
+			context.hm.clearMap(context.em);
 			context.em.notifyObservers();
 			context.hm.drawMap(context.em);
 		});
