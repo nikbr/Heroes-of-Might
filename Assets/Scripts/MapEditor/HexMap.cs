@@ -47,7 +47,6 @@ public class HexMap : EditorObserver{
 	}
 
 	public void updateMap(EditorModel em){
-		Debug.Log(em.width + " " + em.height);
 		List<Vector2Int> toRemove = new List<Vector2Int>();
 		foreach(KeyValuePair<Vector2Int,GameObject> hex in map){
 			if(hex.Key.x>em.width-1||hex.Key.y>em.height-1){
@@ -70,7 +69,6 @@ public class HexMap : EditorObserver{
 				hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 			}
 		}
-		Debug.Log(map.Count);
 	}
 	public void update(EditorModel obj){
 		updateModel(obj);
