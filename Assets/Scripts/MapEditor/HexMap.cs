@@ -36,6 +36,8 @@ public class HexMap : EditorObserver{
 		}
 	}
 
+
+
 	public void drawMap(EditorModel em){	
 		foreach(HexModel hmodel in em.hexes){
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
