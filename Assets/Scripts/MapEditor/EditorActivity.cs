@@ -11,11 +11,15 @@ public class MapData {
 
      public int emHeight;
 	  public int emWidth;
- 
-     public MapData(int height, int width)
+	  public List<HexModel> emHexes = new List<HexModel>();
+	  public List<string> mList = new List<string>();
+
+     public MapData(int height, int width, List<HexModel> hexes, List<string> mats)
      {
          emHeight = height;
 			emWidth = width;
+			emHexes = hexes;
+			mList = mats;
      }
  
 }
@@ -41,12 +45,16 @@ public class EditorActivity : MonoBehaviour {
 */
 
 	public void saveMap(EditorModel em){	
-
-	/*	foreach(HexModel hmodel in em.hexes){
-			Debug.Log(hmodel.Q);
-			Debug.Log(hmodel.R); 
+		List<string> matList = new List<string>();
+		//get terrain type
+		List<GameObject> smap = hm.getMap();
+		foreach(GameObject hex in smap){
+			MeshRenderer mr = hex.GetComponentInChildren<MeshRenderer>();
+			string type = mr.material.name.Replace("(Instance)","");;
+			Debug.Log("found type: "+type); 
+			matList.Add(type);
 		}
-	*/
+	
 		string destination = Application.persistentDataPath + "/map.dat";
 		FileStream file;
 
@@ -55,7 +63,7 @@ public class EditorActivity : MonoBehaviour {
 
 		//MapData data = new MapData(heightValue, widthValue);
 		BinaryFormatter bf = new BinaryFormatter();
-		bf.Serialize(file, new MapData(em.height, em.width));
+		bf.Serialize(file, new MapData(em.height, em.width, em.hexes, matList));
 		file.Close();
 		Debug.Log ("You have written to" + Application.persistentDataPath + "/map.dat");
 	}
@@ -69,6 +77,13 @@ public class EditorActivity : MonoBehaviour {
 		MapData save = (MapData)bf.Deserialize(file);
 		file.Close();
 
+		int i = 0;
+		foreach(HexModel hmodel in save.emHexes){
+			Debug.Log("loaded type for cell "+i+save.mList[i]);
+			hmodel.type = save.mList[i];
+			i++;
+		} 
+
 		// 3
 		//Debug.Log("Saved height was" + save.emHeight);
 		// 4
@@ -76,7 +91,9 @@ public class EditorActivity : MonoBehaviour {
 			em.width = save.emWidth;
 			hm.clearMap();
 			hm.updateModel(em);
+			em.hexes = save.emHexes;
 			hm.drawMap(em);
+			Update();
 			Debug.Log("Map Loaded");
 	}
 	else{

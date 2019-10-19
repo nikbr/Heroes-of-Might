@@ -43,7 +43,13 @@ public class HexMap : EditorObserver{
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
 			map.Add(hexGO);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
-			mr.material = HexMaterials[0];
+			Debug.Log("drawing: "+hmodel.type); 
+			if (hmodel.type == "Water"){
+				mr.material = HexMaterials[1];
+			}else{
+				mr.material = HexMaterials[0];
+			}
+
 			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}
