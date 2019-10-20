@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 
 
@@ -44,7 +45,7 @@ public class HexMap : EditorObserver{
 			map.Add(hexGO);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			Debug.Log("drawing: "+hmodel.type); 
-			if (hmodel.type == "Water"){
+			if (hmodel.type.Replace(" ", string.Empty) == "Water"){
 				mr.material = HexMaterials[1];
 			}else{
 				mr.material = HexMaterials[0];
@@ -53,6 +54,9 @@ public class HexMap : EditorObserver{
 			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}
+
+
+
 	public void clearMap(){
 		foreach(GameObject hex in map){
 			GameObject.Destroy(hex);

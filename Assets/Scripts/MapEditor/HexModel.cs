@@ -8,6 +8,7 @@ public class HexModel {
 		Q = q;
 		R = r;
 		S = -(q+r);
+		type = "Grass";
 	}
 
 	public readonly int Q;

@@ -90,10 +90,9 @@ public class EditorActivity : MonoBehaviour {
 			em.height = save.emHeight;
 			em.width = save.emWidth;
 			hm.clearMap();
-			hm.updateModel(em);
+			//hm.updateModel(em);
 			em.hexes = save.emHexes;
 			hm.drawMap(em);
-			Update();
 			Debug.Log("Map Loaded");
 	}
 	else{
