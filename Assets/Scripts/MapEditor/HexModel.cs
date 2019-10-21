@@ -1,18 +1,21 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[System.Serializable]
 public class HexModel {
 	
 	public HexModel(int q, int r){
 		Q = q;
 		R = r;
 		S = -(q+r);
+		type = "Grass";
 	}
 
 	public readonly int Q;
 	public readonly int R;
 	public readonly int S;
+
+	public string type;
 
 	readonly static float RADIUS = 1f;
 	readonly static float HEIGHT = RADIUS*2;

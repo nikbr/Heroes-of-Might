@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
+
 
 public class Toolbar : EditorObserver {
 	private GameObject go;
@@ -16,7 +19,6 @@ public class Toolbar : EditorObserver {
 	private Button saveButton;	 
 
 	private int terrainValue;
-
 
 	public Toolbar(EditorActivity context){
 		go = GameObject.Find("Toolbar");
@@ -41,18 +43,19 @@ public class Toolbar : EditorObserver {
 			context.hm.updateMap(context.em);
 		});
 		
-	/* 	GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
+ 	GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
 		loadButton = loadButtonGO.GetComponent<Button>();
-		loadButton.onClick.AddListener(TaskOnClick);
-		
+		loadButton.onClick.AddListener(delegate{
+			context.loadMap(context.em);
+		});
 		GameObject saveButtonGO = go.transform.Find("SaveButton").gameObject;
 		saveButton = saveButtonGO.GetComponent<Button>();
-		saveButton.onClick.AddListener(TaskOnClick);*/
+		saveButton.onClick.AddListener(delegate{
+			context.saveMap(context.em);
+		});
 
 	}
 
-void TaskOnClick(){
-		Debug.Log ("You have clicked the button!");
 	}
 
 	private void populateToolbar(EditorActivity context){

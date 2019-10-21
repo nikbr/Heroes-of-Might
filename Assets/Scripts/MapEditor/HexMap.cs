@@ -1,6 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+
+
 
 public class HexMap : EditorObserver{
 
@@ -21,6 +24,10 @@ public class HexMap : EditorObserver{
 		StaticBatchingUtility.Combine(go);
 	}
 
+	public List<GameObject> getMap(){
+		return map;
+	}
+
 	public void updateModel(EditorModel em){
 		em.hexes = new List<HexModel>();
 		for(int row =0;row<em.height;row++){
@@ -30,15 +37,23 @@ public class HexMap : EditorObserver{
 		}
 	}
 
+
 	public void drawMap(EditorModel em){
 		foreach(HexModel hmodel in em.hexes){
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
 			map.Add(new Vector2Int(hmodel.Q, hmodel.R), hexGO );
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
-			mr.material = HexMaterials[0];
+			Debug.Log("drawing: "+hmodel.type); 
+			if (hmodel.type.Replace(" ", string.Empty) == "Water"){
+				mr.material = HexMaterials[1];
+			}else{
+				mr.material = HexMaterials[0];
+			}
+
 			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}
+
 	public void clearMap(EditorModel em){
 		foreach(KeyValuePair<Vector2Int,GameObject> hex in map){
 			GameObject.Destroy(hex.Value);
