@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using SimpleFileBrowser;
 
+public enum Permission { Denied = 0, Granted = 1, ShouldAsk = 2 };
+
+public delegate void OnSuccess( string path );
+public delegate void OnCancel();
 
 
 [System.Serializable]
