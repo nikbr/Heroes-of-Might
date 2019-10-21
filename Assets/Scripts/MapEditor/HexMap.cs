@@ -24,7 +24,7 @@ public class HexMap : EditorObserver{
 		StaticBatchingUtility.Combine(go);
 	}
 
-	public List<GameObject> getMap(){
+	public Dictionary<Vector2Int, GameObject> getMap(){
 		return map;
 	}
 

@@ -47,9 +47,9 @@ public class EditorActivity : MonoBehaviour {
 	public void saveMap(EditorModel em){	
 		List<string> matList = new List<string>();
 		//get terrain type
-		List<GameObject> smap = hm.getMap();
-		foreach(GameObject hex in smap){
-			MeshRenderer mr = hex.GetComponentInChildren<MeshRenderer>();
+		Dictionary<Vector2Int, GameObject> smap = hm.getMap();
+		foreach(KeyValuePair<Vector2Int,GameObject> hex in smap){
+			MeshRenderer mr = hex.Value.GetComponentInChildren<MeshRenderer>();
 			string type = mr.material.name.Replace("(Instance)","");;
 			Debug.Log("found type: "+type); 
 			matList.Add(type);
@@ -84,13 +84,10 @@ public class EditorActivity : MonoBehaviour {
 			i++;
 		} 
 
-		// 3
-		//Debug.Log("Saved height was" + save.emHeight);
-		// 4
-			em.height = save.emHeight;
-			em.width = save.emWidth;
-			hm.clearMap();
-			//hm.updateModel(em);
+			tb.setHeight(save.emHeight);
+			tb.setWidth(save.emWidth);
+
+			hm.clearMap(em);
 			em.hexes = save.emHexes;
 			hm.drawMap(em);
 			Debug.Log("Map Loaded");

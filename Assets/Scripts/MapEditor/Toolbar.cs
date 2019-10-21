@@ -56,7 +56,16 @@ public class Toolbar : EditorObserver {
 
 	}
 
+	public void setHeight(int height){
+ 	heightInputField.text = height.ToString();
+ 	heightValue = height;
 	}
+	public void setWidth(int width){
+	widthInputField.text = width.ToString();
+ 	widthValue = width;
+	}
+
+
 
 	private void populateToolbar(EditorActivity context){
 		populateWidthAndHeight(context);
