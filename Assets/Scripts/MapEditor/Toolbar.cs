@@ -28,24 +28,22 @@ public class Toolbar : EditorObserver {
 			terrainValue = terrainDropdown.value;
 			context.em.notifyObservers();
 		});
-		widthInputField.onValueChanged.AddListener(delegate{
+		widthInputField.onEndEdit.AddListener(delegate{
 			if(widthInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				widthValue = int.Parse(widthInputField.text);
 			}
-			context.hm.clearMap();
 			context.em.notifyObservers();
-			context.hm.drawMap(context.em);
+			context.hm.updateMap(context.em);
 		});
-		heightInputField.onValueChanged.AddListener(delegate{
+		heightInputField.onEndEdit.AddListener(delegate{
 			if(heightInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				heightValue = int.Parse(heightInputField.text);
 			}
-			context.hm.clearMap();
 			context.em.notifyObservers();
-			context.hm.drawMap(context.em);
+			context.hm.updateMap(context.em);
 		});
 		
-		GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
+ 	GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;
 		loadButton = loadButtonGO.GetComponent<Button>();
 		loadButton.onClick.AddListener(delegate{
 			context.loadMap(context.em);
@@ -55,6 +53,8 @@ public class Toolbar : EditorObserver {
 		saveButton.onClick.AddListener(delegate{
 			context.saveMap(context.em);
 		});
+
+	}
 
 	}
 
