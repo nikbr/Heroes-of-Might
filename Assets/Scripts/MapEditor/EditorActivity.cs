@@ -69,7 +69,6 @@ public class EditorActivity : MonoBehaviour {
 	}
 
 	public void loadMap(EditorModel em){	
- // 1
   if (File.Exists(Application.persistentDataPath + "/map.dat"))
   {
 		BinaryFormatter bf = new BinaryFormatter();
