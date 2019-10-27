@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using SimpleFileBrowser;
 
+public enum Permission { Denied = 0, Granted = 1, ShouldAsk = 2 };
+
+public delegate void OnSuccess(string path);
+public delegate void OnCancel();
 
 
 [System.Serializable]
@@ -36,6 +41,8 @@ public class EditorActivity : MonoBehaviour {
 		em.addObserver(tb);
 		hm = new HexMap(this);
 		em.addObserver(hm);
+		FileBrowser.SetFilters( true, new FileBrowser.Filter( "Maps", ".dat"));	
+
 	}
 
 /* 
@@ -44,7 +51,9 @@ public class EditorActivity : MonoBehaviour {
 #Android: Application.persistentDataPath points to /storage/emulated/0/Android/data/<packagename>/files on most devices (some older phones might point to location on SD card if present), the path is resolved using android.content.Context.getExternalFilesDir.
 */
 
-	public void saveMap(EditorModel em){	
+
+
+	public void saveMapHelper(EditorModel em, string destination){
 		List<string> matList = new List<string>();
 		//get terrain type
 		Dictionary<Vector2Int, GameObject> smap = hm.getMap();
@@ -54,26 +63,37 @@ public class EditorActivity : MonoBehaviour {
 			Debug.Log("found type: "+type); 
 			matList.Add(type);
 		}
-	
-		string destination = Application.persistentDataPath + "/map.dat";
+
 		FileStream file;
 
 		if(File.Exists(destination)) file = File.OpenWrite(destination);
 		else file = File.Create(destination);
 
-		//MapData data = new MapData(heightValue, widthValue);
+		Debug.Log( "destination is: " + destination );
+
 		BinaryFormatter bf = new BinaryFormatter();
 		bf.Serialize(file, new MapData(em.height, em.width, em.hexes, matList));
 		file.Close();
-		Debug.Log ("You have written to" + Application.persistentDataPath + "/map.dat");
+		Debug.Log ("You have written to" + destination);
 	}
 
-	public void loadMap(EditorModel em){	
- // 1
-  if (File.Exists(Application.persistentDataPath + "/map.dat"))
+	public void saveMap(EditorModel em){
+			string destination = Application.persistentDataPath + "/map.dat";
+			//	bool ShowSaveDialog( OnSuccess onSuccess, OnCancel onCancel, bool folderMode = false, string initialPath = Application.persistentDataPath, string title = "Save", string saveButtonText = "Save" );
+			FileBrowser.ShowSaveDialog( (path) => { saveMapHelper( em, path);  } , null, false, Application.persistentDataPath, "Save Map As", "Save Map" );
+	}
+
+	public void loadMapHelper(EditorModel em, string destination){	
+
+  if (File.Exists(destination))
   {
 		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Open(Application.persistentDataPath + "/map.dat", FileMode.Open);
+		FileStream file = File.Open(destination, FileMode.Open);
+		if (file == null){
+			file.Close();
+			Debug.Log("Map corrupted!");
+			return;
+		}
 		MapData save = (MapData)bf.Deserialize(file);
 		file.Close();
 
@@ -90,16 +110,22 @@ public class EditorActivity : MonoBehaviour {
 			hm.clearMap(em);
 			em.hexes = save.emHexes;
 			hm.drawMap(em);
-			Debug.Log("Map Loaded");
+			Debug.Log("Map Loaded From"+destination);
 	}
 	else{
 			Debug.Log("No map saved!");
 		}
 	}
 
+	public void loadMap(EditorModel em){
+		string destination = Application.persistentDataPath + "/map.dat";
+		//	bool ShowLoadDialog( OnSuccess onSuccess, OnCancel onCancel, bool folderMode = false, string initialPath = Application.persistentDataPath, string title = "Save", string saveButtonText = "Save" );
+		FileBrowser.ShowLoadDialog( (path) => { loadMapHelper( em, path);  } , null, false, Application.persistentDataPath, "Load Map", "Load Map" );
+}
+
 	public LayerMask LayerIDForHexTiles;
 	void Update () {
-		if (Input.GetMouseButtonDown(0)){
+		if (Input.GetMouseButton(0)){
 			RaycastHit hit;
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			int layerMask =LayerIDForHexTiles.value;
