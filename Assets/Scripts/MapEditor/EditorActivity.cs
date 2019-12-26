@@ -13,7 +13,6 @@ public class MapData {
 	  public int emWidth;
 	  public List<HexModel> emHexes = new List<HexModel>();
 	  public List<string> mList = new List<string>();
-
      public MapData(int height, int width, List<HexModel> hexes, List<string> mats)
      {
          emHeight = height;
@@ -47,9 +46,9 @@ public class EditorActivity : MonoBehaviour {
 	public void saveMap(EditorModel em){	
 		List<string> matList = new List<string>();
 		//get terrain type
-		Dictionary<Vector2Int, GameObject> smap = hm.getMap();
-		foreach(KeyValuePair<Vector2Int,GameObject> hex in smap){
-			MeshRenderer mr = hex.Value.GetComponentInChildren<MeshRenderer>();
+		Dictionary<GameObject, HexModel> smap = hm.getMap();
+		foreach(KeyValuePair<GameObject, HexModel> hex in smap){
+			MeshRenderer mr = hex.Key.GetComponentInChildren<MeshRenderer>();
 			string type = mr.material.name.Replace("(Instance)","");;
 			Debug.Log("found type: "+type); 
 			matList.Add(type);

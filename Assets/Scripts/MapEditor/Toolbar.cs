@@ -32,6 +32,7 @@ public class Toolbar : EditorObserver {
 			if(widthInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				widthValue = int.Parse(widthInputField.text);
 			}
+			Debug.Log("WIDTH CHANGED");
 			context.em.notifyObservers();
 			context.hm.updateMap(context.em);
 		});
