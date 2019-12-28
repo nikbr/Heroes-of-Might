@@ -38,18 +38,20 @@ public class HexMap : EditorObserver{
 	}
 
 
-	public void drawMap(EditorModel em){
+	public void drawMap(EditorModel em){ //map is left to right row by row bottom up
+		int i = 0;
+		//Debug.Log("-------new cells--------");
 		foreach(HexModel hmodel in em.hexes){
 			GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
 			map.Add(new Vector2Int(hmodel.Q, hmodel.R), hexGO );
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
-			Debug.Log("drawing: "+hmodel.type); 
+			//Debug.Log("drawing cell number : "+ i + "type:" + hmodel.type + "coordinates: " + string.Format("{0}, {1}", hmodel.Q, hmodel.R)); 
+			i++;
 			if (hmodel.type.Replace(" ", string.Empty) == "Water"){
 				mr.material = HexMaterials[1];
 			}else{
 				mr.material = HexMaterials[0];
 			}
-
 			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}
