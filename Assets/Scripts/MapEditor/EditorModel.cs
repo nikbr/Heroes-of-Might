@@ -10,7 +10,6 @@ public class EditorModel  {
 
 	public int width;
 	public int height;
-
 	public  EditorModel (EditorActivity ea, int width, int height) {
 		this.width = width;
 		this.height = height;

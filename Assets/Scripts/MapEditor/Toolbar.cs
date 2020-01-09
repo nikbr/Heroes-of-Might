@@ -34,14 +34,12 @@ public class Toolbar : EditorObserver {
 			}
 			Debug.Log("WIDTH CHANGED");
 			context.em.notifyObservers();
-			context.hm.updateMap(context.em);
 		});
 		heightInputField.onEndEdit.AddListener(delegate{
 			if(heightInputField.text!=""){ //TODO add more restrictions so its only numbers are acceppted
 				heightValue = int.Parse(heightInputField.text);
 			}
 			context.em.notifyObservers();
-			context.hm.updateMap(context.em);
 		});
 		
  	GameObject loadButtonGO = go.transform.Find("LoadButton").gameObject;

@@ -105,11 +105,18 @@ public class EditorActivity : MonoBehaviour {
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)){
 				GameObject go = hit.rigidbody.gameObject;
 				GameObject parent = go.transform.parent.gameObject;
-				Debug.Log(parent.name);
+				//Debug.Log(parent.name);
 				HexModel hmodel = hm.getMap()[parent];
-				Debug.Log(hmodel.Q + "," + hmodel.R);
-				MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>();
-				mr.material = HexMaterials[em.currentTool.value];
+				int hmodelIndex = em.hexes.FindIndex(d => d == hmodel);
+				Debug.Log("Size: "+ em.hexes.Count +" Index: " + hmodelIndex);
+				if(hmodelIndex>=0 && em.hexes[hmodelIndex].type != HexMaterials[em.currentTool.value].name){
+					em.hexes[hmodelIndex].type = HexMaterials[em.currentTool.value].name;
+					hm.getMap().Remove(parent);
+					GameObject.Destroy(parent);
+					em.notifyObservers();
+				} 
+				//MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>();
+				//mr.material = HexMaterials[em.currentTool.value];
 			}else{
 
 			}

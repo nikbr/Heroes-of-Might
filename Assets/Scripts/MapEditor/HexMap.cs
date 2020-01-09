@@ -17,7 +17,7 @@ public class HexMap : EditorObserver{
 		HexMaterials = context.HexMaterials;
 		go = GameObject.Find("HexMap");
 		map = new Dictionary<GameObject, HexModel>();
-		updateModel(context.em);
+		createHexModels(context.em);
 		drawMap(context.em);
 		StaticBatchingUtility.Combine(go);
 	}
@@ -26,7 +26,7 @@ public class HexMap : EditorObserver{
 		return map;
 	}
 
-	public void updateModel(EditorModel em){
+	public void createHexModels(EditorModel em){
 		em.hexes = new List<HexModel>();
 		for(int row =0;row<em.height;row++){
 			for (int col = -row/2;col<em.width-row/2;col++){
@@ -35,6 +35,41 @@ public class HexMap : EditorObserver{
 		}
 	}
 
+	public void updateHexModels(EditorModel em){
+		int len = em.hexes.Count;
+		
+		if(em.height*em.width>len){
+			int maxR = -10;
+			int maxC = -10;
+			foreach(HexModel hmodel in em.hexes){
+				maxR = Math.Max(maxR, hmodel.R);
+				maxC = Math.Max(maxC, hmodel.Q);
+			}
+			for(int row =0;row<em.height;row++){
+				for (int col = -row/2;col<em.width-row/2;col++){
+					if(col>maxC-row/2||row>maxR){
+						em.hexes.Add(new HexModel(col, row));
+					}
+				}
+			}
+		}else if(em.height*em.width<len){
+			List<HexModel> toRemove = new List<HexModel>();
+			int maxR = em.height-1;
+			int maxC = em.width-1;
+			foreach(HexModel hmodel in em.hexes){
+				if(hmodel.Q>maxC-hmodel.R/2||hmodel.R>maxR){
+					Debug.Log(hmodel.Q + "," + hmodel.R);
+					toRemove.Add(hmodel);
+				}
+			}
+			foreach(HexModel hmodel in toRemove){
+				em.hexes.Remove(hmodel);
+			}
+		}
+
+	}
+
+
 
 	public void drawMap(EditorModel em){
 		foreach(HexModel hmodel in em.hexes){
@@ -42,9 +77,9 @@ public class HexMap : EditorObserver{
 			map.Add(hexGO, hmodel);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			Debug.Log("drawing: "+hmodel.type); 
-			if (hmodel.type.Replace(" ", string.Empty) == "Water"){
+			if (hmodel.type.Replace(" ", string.Empty) == HexMaterials[1].name){
 				mr.material = HexMaterials[1];
-			}else if (hmodel.type.Replace(" ", string.Empty) == "Grass"){
+			}else if (hmodel.type.Replace(" ", string.Empty) == HexMaterials[0].name){
 				mr.material = HexMaterials[0];
 			}
 
@@ -63,7 +98,7 @@ public class HexMap : EditorObserver{
 		Debug.Log("map updating");
 		List<GameObject> toRemove = new List<GameObject>();
 		foreach(KeyValuePair<GameObject, HexModel> hex in map){
-			Debug.Log("X: " + hex.Value.Q + " Y: " + hex.Value.R + " H: " + em.height + " W: " + em.width );
+			//Debug.Log("X: " + hex.Value.Q + " Y: " + hex.Value.R + " H: " + em.height + " W: " + em.width );
 			if(hex.Value.Q+hex.Value.R/2>em.width-1||hex.Value.R>em.height-1){
 				GameObject.Destroy(hex.Key);
 				toRemove.Add(hex.Key);
@@ -79,7 +114,7 @@ public class HexMap : EditorObserver{
 				GameObject hexGO = GameObject.Instantiate(HexPrefab, hmodel.Position(), Quaternion.identity, go.transform);
 				map.Add(hexGO, hmodel);
 				MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
-				mr.material = HexMaterials[0];
+				mr.material = HexMaterials[em.currentTool.materialToValue[hmodel.type]];
 				hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 			}
 		}
@@ -94,6 +129,7 @@ public class HexMap : EditorObserver{
 		return false;
 	}
 	public void update(EditorModel obj){
-		updateModel(obj);
+		updateHexModels(obj);
+		updateMap(obj);
 	}
 }
