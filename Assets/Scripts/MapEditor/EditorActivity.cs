@@ -104,6 +104,10 @@ public class EditorActivity : MonoBehaviour {
 			int layerMask =LayerIDForHexTiles.value;
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)){
 				GameObject go = hit.rigidbody.gameObject;
+				GameObject parent = go.transform.parent.gameObject;
+				Debug.Log(parent.name);
+				HexModel hmodel = hm.getMap()[parent];
+				Debug.Log(hmodel.Q + "," + hmodel.R);
 				MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>();
 				mr.material = HexMaterials[em.currentTool.value];
 			}else{
