@@ -3,6 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
+[System.Serializable]
+public class MapData {
+    public int emHeight;
+	public int emWidth;
+	public List<HexModel> emHexes = new List<HexModel>();
+    public MapData(int height, int width, List<HexModel> hexes){
+        emHeight = height;
+		emWidth = width;
+		emHexes = hexes;
+    }
+}
+
 public class EditorModel  {
 	private List<EditorObserver> observers = new List<EditorObserver>();
 	public List<HexModel> hexes = new List<HexModel>();
