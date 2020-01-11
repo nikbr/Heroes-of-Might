@@ -3,27 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
-
-
-[System.Serializable]
-public class MapData {
-
-     public int emHeight;
-	  public int emWidth;
-	  public List<HexModel> emHexes = new List<HexModel>();
-	  public List<string> mList = new List<string>();
-
-     public MapData(int height, int width, List<HexModel> hexes, List<string> mats)
-     {
-         emHeight = height;
-			emWidth = width;
-			emHexes = hexes;
-			mList = mats;
-     }
- 
-}
-
 public class EditorActivity : MonoBehaviour {
 	public EditorModel em;
 	public HexMap hm;
@@ -45,44 +24,28 @@ public class EditorActivity : MonoBehaviour {
 */
 
 	public void saveMap(EditorModel em){	
-		List<string> matList = new List<string>();
-		//get terrain type
-		Dictionary<Vector2Int, GameObject> smap = hm.getMap();
-		foreach(KeyValuePair<Vector2Int,GameObject> hex in smap){
-			MeshRenderer mr = hex.Value.GetComponentInChildren<MeshRenderer>();
-			string type = mr.material.name.Replace("(Instance)","");;
-			Debug.Log("found type: "+type); 
-			matList.Add(type);
-		}
-	
+		Debug.Log(Application.persistentDataPath);
 		string destination = Application.persistentDataPath + "/map.dat";
 		FileStream file;
 
 		if(File.Exists(destination)) file = File.OpenWrite(destination);
 		else file = File.Create(destination);
 
-		//MapData data = new MapData(heightValue, widthValue);
 		BinaryFormatter bf = new BinaryFormatter();
-		bf.Serialize(file, new MapData(em.height, em.width, em.hexes, matList));
+		bf.Serialize(file, new MapData(em.height, em.width, em.hexes));
 		file.Close();
 		Debug.Log ("You have written to" + Application.persistentDataPath + "/map.dat");
 	}
 
 	public void loadMap(EditorModel em){	
- // 1
-  if (File.Exists(Application.persistentDataPath + "/map.dat"))
-  {
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file = File.Open(Application.persistentDataPath + "/map.dat", FileMode.Open);
-		MapData save = (MapData)bf.Deserialize(file);
-		file.Close();
+		if (File.Exists(Application.persistentDataPath + "/map.dat")){
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(Application.persistentDataPath + "/map.dat", FileMode.Open);
+			MapData save = (MapData)bf.Deserialize(file);
+			file.Close();
 
-		int i = 0;
-		foreach(HexModel hmodel in save.emHexes){
-			Debug.Log("loaded type for cell "+i+save.mList[i]);
-			hmodel.type = save.mList[i];
-			i++;
-		} 
+			int i = 0;
+
 
 			tb.setHeight(save.emHeight);
 			tb.setWidth(save.emWidth);
@@ -91,8 +54,7 @@ public class EditorActivity : MonoBehaviour {
 			em.hexes = save.emHexes;
 			hm.drawMap(em);
 			Debug.Log("Map Loaded");
-	}
-	else{
+		}else{
 			Debug.Log("No map saved!");
 		}
 	}
@@ -105,8 +67,17 @@ public class EditorActivity : MonoBehaviour {
 			int layerMask =LayerIDForHexTiles.value;
 			if(Physics.Raycast(ray, out hit, Mathf.Infinity, layerMask)){
 				GameObject go = hit.rigidbody.gameObject;
-				MeshRenderer mr = go.GetComponentInChildren<MeshRenderer>();
-				mr.material = HexMaterials[em.currentTool.value];
+				GameObject parent = go.transform.parent.gameObject;
+				//Debug.Log(parent.name);
+				HexModel hmodel = hm.getMap()[parent];
+				int hmodelIndex = em.hexes.FindIndex(d => d == hmodel);
+				Debug.Log("Size: "+ em.hexes.Count +" Index: " + hmodelIndex);
+				if(hmodelIndex>=0 && em.hexes[hmodelIndex].type != HexMaterials[em.currentTool.value].name){
+					em.hexes[hmodelIndex].type = HexMaterials[em.currentTool.value].name;
+					hm.getMap().Remove(parent);
+					GameObject.Destroy(parent);
+					em.notifyObservers();
+				} 
 			}else{
 
 			}
