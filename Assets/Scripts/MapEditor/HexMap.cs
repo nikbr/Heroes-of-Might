@@ -77,12 +77,7 @@ public class HexMap : EditorObserver{
 			map.Add(hexGO, hmodel);
 			MeshRenderer mr = hexGO.GetComponentInChildren<MeshRenderer>();
 			Debug.Log("drawing: "+hmodel.type); 
-			if (hmodel.type.Replace(" ", string.Empty) == HexMaterials[1].name){
-				mr.material = HexMaterials[1];
-			}else if (hmodel.type.Replace(" ", string.Empty) == HexMaterials[0].name){
-				mr.material = HexMaterials[0];
-			}
-
+			mr.material = HexMaterials[em.currentTool.materialToValue[hmodel.type]];
 			hexGO.GetComponentInChildren<TextMesh>().text = string.Format("{0}, {1}", hmodel.Q, hmodel.R);
 		}
 	}

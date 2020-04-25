@@ -73,6 +73,7 @@ public class EditorActivity : MonoBehaviour {
 				int hmodelIndex = em.hexes.FindIndex(d => d == hmodel);
 				Debug.Log("Size: "+ em.hexes.Count +" Index: " + hmodelIndex);
 				if(hmodelIndex>=0 && em.hexes[hmodelIndex].type != HexMaterials[em.currentTool.value].name){
+					Debug.Log("Drawing " + HexMaterials[em.currentTool.value].name);
 					em.hexes[hmodelIndex].type = HexMaterials[em.currentTool.value].name;
 					hm.getMap().Remove(parent);
 					GameObject.Destroy(parent);
