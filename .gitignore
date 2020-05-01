@@ -29,3 +29,4 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+Assets/Models/HexCylinderModel.fbx.meta
